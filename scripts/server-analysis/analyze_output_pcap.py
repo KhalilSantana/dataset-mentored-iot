@@ -2,7 +2,7 @@ import pandas as pd
 import argparse
 import matplotlib.pyplot as plt
 from tqdm.auto import tqdm
-
+import numpy as np
 
 
 def read_data(file_path):
@@ -14,7 +14,6 @@ def read_data(file_path):
 
 def compute_metrics(data, freq='S'):
     data.set_index('Timestamp', inplace=True)
-
     # Start counting the timestamp from 0
     data.index = data.index - data.index[0]
     throughput = data['Packet Size'].resample(freq).sum()  # Sum of packet sizes
@@ -27,7 +26,7 @@ def plot_metrics(throughput, packet_counts, freq, fontsize, expected_time):
     fig, ax1 = plt.subplots(figsize=(12, 6))
     # convert expected_time to Timedelta
     expected_time = pd.Timedelta(seconds=expected_time)
-    color = 'tab:red'
+    color = 'tab:blue'
     ax1.set_xlabel('Tempo (segundos)', fontsize=fontsize, fontweight='bold')
     ax1.set_ylabel('Vazão (Mbps)', color=color, fontsize=fontsize, fontweight='bold')
 
@@ -46,14 +45,39 @@ def plot_metrics(throughput, packet_counts, freq, fontsize, expected_time):
 
     ax2 = ax1.twinx()
 
-    color = 'tab:blue'
-    ax2.set_ylabel('Número de Pacotes', color=color, fontsize=fontsize, fontweight='bold')
+    color = 'tab:red'
+    # ax2.set_ylabel('Número de Pacotes', color=color, fontsize=fontsize, fontweight='bold')
+    ax2.set_ylabel('Contagem de erros (clientes)', color=color, fontsize=fontsize, fontweight='bold')
 
     data_x = packet_counts.index
     if max(data_x) < expected_time:
         data_x = data_x + (expected_time - max(data_x))
 
-    ax2.plot(data_x/1000000000, packet_counts.values, color=color)
+    # ax2.plot(data_x/1000000000, packet_counts.values, color=color)
+    df = pd.read_csv("../merged_data.csv")
+    # Transform non number of second columns to nan
+    df['delay (seconds)'] = pd.to_numeric(df['delay (seconds)'], errors='coerce')
+
+    # Get nan lines
+    nan_lines = df[df['delay (seconds)'].isna()]
+    # Sort by 'time'
+    nan_lines = nan_lines.sort_values('time')
+
+    # histogram of nan values
+    # ax2.hist(nan_lines['time'], bins=20, color=color, alpha=0.5, histtype='step', edgecolor=color, linewidth=2)
+    counts, bins, _ = ax2.hist(nan_lines['time'], bins=20, color=color, alpha=0.5, histtype='step', edgecolor=color, linewidth=2)
+
+    min_time = min(df['time'])
+    max_time = max(df['time'])
+    min_bin = min(bins)
+    max_bin = max(bins)
+    # Plot lines from min_time to min_bin and from max_time to max_bin
+    ax2.plot([min_time, min_bin], [0, 0], color=color, linewidth=2)
+    ax2.plot([max_time, max_bin], [0, 0], color=color, linewidth=2)
+
+    # Update min y_axis to -1
+    ax2.set_ylim(-1, max(counts) + 1)
+
     ax2.tick_params(axis='y', labelcolor=color)
 
     # Avoid using scientific notation
@@ -66,6 +90,10 @@ def plot_metrics(throughput, packet_counts, freq, fontsize, expected_time):
     ax2.tick_params(axis='both', which='major', labelsize=fontsize)
 
     timestamp = pd.Timestamp.now().strftime('%Y-%m-%d_%H-%M-%S')
+
+    # tight layout with padding
+    plt.tight_layout(pad=1.5, h_pad=0)
+
     plt.savefig(f'../output_{freq}-{timestamp}.png', dpi=300)
 
 
@@ -77,7 +105,6 @@ def filter_to_experiment_duration(data, unix_timestamp, duration):
     # The Timestamp column is in the format %H:%M:%S.%f
     # The unix_timestamp is in seconds since the unix epoch
     # The duration is in seconds
-
     start_time = pd.Timestamp(unix_timestamp, unit='s')
     # get hours only from start time
     # Consider that the data PD timestamps don't have a date, only the time
@@ -86,10 +113,9 @@ def filter_to_experiment_duration(data, unix_timestamp, duration):
     data_start = data['Timestamp'].iloc[0]
     data_start = pd.Timestamp(data_start, unit='s')
 
-    print(f"Start capture data: {data_start}")
+    print(f"Start capture data: {data_start} | Start time: {start_time} | End time: {end_time}")
     filtered_data = data[(data['Timestamp'] >= start_time) & (data['Timestamp'] <= end_time)]
     print(f"Start time: {start_time}")
-    print(filtered_data)
     return filtered_data
 
 def main():

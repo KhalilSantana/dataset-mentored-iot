@@ -37,7 +37,7 @@ for f in $(find . -name "*.pcapng"); do
     # tshark -r $f -T fields -e frame.time_epoch -e frame.len -e ip.src -e ip.dst -e tcp.srcport -e tcp.dstport -e tcp.seq -e tcp.ack -e tcp.flags -e tcp.window_size -e tcp.analysis.ack_rtt -e tcp.analysis.ack_rtt -e tcp.analysis.bytes_in_flight
     ../pcap_to_csv $f packets.csv # TODO UNCOMMENT THIS
     set -x
-    python3 ../analyze_output_pcap.py -s 16 -f packets.csv -t $EXPERIMENT_DURATION -u $START_TIMESTAMP
+    python3 ../analyze_output_pcap.py -s 22 -f packets.csv -t $EXPERIMENT_DURATION -u $START_TIMESTAMP
 done
 
 cd ..

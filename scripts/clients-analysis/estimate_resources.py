@@ -15,7 +15,7 @@ def parse_resources(experiment_data):
         region = nodeactor['region']
         cluster = nodeactor['cluster']
         replicas = nodeactor['replicas']
-        # print(f"Processing {nodeactor['name']} in {region}/{cluster} with {replicas} replicas")
+        print(f"Processing {nodeactor['name']} in {region}/{cluster} with {replicas} replicas")
         
         for container in nodeactor['containers']:
             # print(f"  Processing container {container['name']}")
@@ -57,7 +57,7 @@ def convert_memory(memory):
         # Throw exception
         return int(memory[:-1])
     else:
-        raise Exception("Invalid memory unit")
+        raise Exception(f"Invalid memory unit: {memory}" )
 
 # Read YAML data from stdin
 data = read_yaml_from_stdin()

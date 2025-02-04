@@ -8,11 +8,14 @@ import shutil
 import subprocess
 logger = logging.getLogger()
 from tqdm import tqdm
+import pandas as pd
 
 temp_dir=".tmp_exp_analyzer"
 
 def read_csv_files(directory):
     data = []
+
+    df_list = []
 
     # Walk through all subdirectories and files
     for root, _, files in os.walk(directory):
@@ -20,6 +23,8 @@ def read_csv_files(directory):
         logger.debug(csv_files)
         for file in tqdm(csv_files, desc="Processing CSV files"):
             file_path = os.path.join(root, file)
+            df = pd.read_csv(file_path, index_col=False)
+            df_list.append(df)
             with open(file_path, 'r') as f:
                 lines = f.readlines()[1:]  # Ignore the first line (headers)
                 cleaned_lines = []
@@ -32,6 +37,10 @@ def read_csv_files(directory):
                     data.append(csv_data)
                 except ValueError as e:
                     logger.error(f"Error parsing {file_path}: {e}")
+    
+    # Save the merged dataframes to a single csv file
+    df = pd.concat(df_list)
+    df.to_csv("merged_data.csv", index=False)
     return data
 
 def extract_experiment_data(expfile, temp_dir):    
