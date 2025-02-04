@@ -1,0 +1,772 @@
+Experiment:
+  name: "Cenario-4-mqtt"
+
+  nodeactors:
+    - name: "mqtt-broker"
+      persitent_volume_path: ["/app/results/", "/app/results/"]
+      replicas: 1
+      containers:
+        - name: "tshark"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["cp /etc/hosts /app/results/hosts"]
+          securityContext:
+            privileged: true
+          env:
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MENTORED_PRE_CMD"
+              value: "iptables-80-22-tshark.sh"
+          resources:
+            requests:
+              memory: "100M"
+              cpu: "100m"
+            limits:
+              memory: "100M"
+              cpu: "100m"
+        - name: "broker"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command:
+            ["/usr/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf", "-v"]
+          env:
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "false"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "128M"
+              cpu: "1000m"
+            limits:
+              memory: "128M"
+              cpu: "1000m"
+      region: "whx-mg"
+      cluster: "x86"
+
+    - name: "rstp-server"
+      persitent_volume_path: ["/app/results/"]
+      replicas: 1
+      containers:
+        - name: "tshark"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["cp /etc/hosts /app/results/hosts"]
+          securityContext:
+            privileged: true
+          env:
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MENTORED_PRE_CMD"
+              value: "iptables-80-22-tshark.sh"
+          resources:
+            requests:
+              memory: "100M"
+              cpu: "100m"
+            limits:
+              memory: "100M"
+              cpu: "100m"
+        - name: "server"
+          image: "ghcr.io/khalilsantana/rstp_stream_server:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          # command: ["/usr/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf", "-v"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "false"
+          ports:
+            - containerPort: 8554
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "100m"
+            limits:
+              memory: "2500M"
+              cpu: "3000m"
+      region: "whx-mg"
+      cluster: "x86"
+
+    - name: "mqtt-sub-node-1"
+      persitent_volume_path: "/app/results/"
+      replicas: 4
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "sub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic1"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+      region: "rpi-1-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-sub-node-2"
+      persitent_volume_path: "/app/results/"
+      replicas: 4
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "sub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic2"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+      region: "rpi-0-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-sub-node-3"
+      persitent_volume_path: "/app/results/"
+      replicas: 4
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "sub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic3"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+      region: "rpi-9-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-sub-node-4"
+      persitent_volume_path: "/app/results/"
+      replicas: 4
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "sub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic4"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+      region: "rpi-3-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-pub-node-1"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "pub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic1"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+        - name: "ip-camera"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["./ip_camera.py"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "rstp-server"
+            - name: "STREAM_NAME"
+              value: "stream1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "500m"
+      region: "rpi-5-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-pub-node-2"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "pub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic2"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+        - name: "ip-camera"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["./ip_camera.py"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "rstp-server"
+            - name: "STREAM_NAME"
+              value: "stream2"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "500m"
+      region: "rpi-3-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-pub-node-3"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "pub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic3"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+        - name: "ip-camera"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["./ip_camera.py"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "rstp-server"
+            - name: "STREAM_NAME"
+              value: "stream3"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "500m"
+      region: "rpi-7-ufmg"
+      cluster: "iot"
+
+    - name: "mqtt-pub-node-4"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "mqtt-client-subscriber"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args:
+            [
+              "client.py",
+              "-smin",
+              "1",
+              "-smax",
+              "1",
+              "-o",
+              "/app/results/mqtt_client.log",
+              "-ip",
+            ]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MQTT_MODE"
+              value: "pub"
+            - name: "MQTT_TOPIC"
+              value: "/mentored/topic4"
+            - name: "MQTT_QOS"
+              value: "1"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "128M"
+              cpu: "200m"
+        - name: "ip-camera"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["./ip_camera.py"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "rstp-server"
+            - name: "STREAM_NAME"
+              value: "stream4"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "500m"
+      region: "rpi-1-ufmg"
+      cluster: "iot"
+
+    - name: "iot-vuln-ssh-node-1"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "vulnerable"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["/app/vulnerable.sh"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "128M"
+              cpu: "500m"
+            limits:
+              memory: "128M"
+              cpu: "500m"
+      region: "rpi-2-ufmg"
+      cluster: "iot"
+
+    - name: "iot-vuln-ssh-node-2"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "vulnerable"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["/app/vulnerable.sh"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "128M"
+              cpu: "500m"
+            limits:
+              memory: "128M"
+              cpu: "500m"
+      region: "rpi-4-ufmg"
+      cluster: "iot"
+
+    - name: "iot-vuln-ssh-node-3"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "vulnerable"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["/app/vulnerable.sh"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "128M"
+              cpu: "500m"
+            limits:
+              memory: "128M"
+              cpu: "500m"
+      region: "rpi-6-ufmg"
+      cluster: "iot"
+
+    - name: "iot-vuln-ssh-node-4"
+      persitent_volume_path: "/app/results/"
+      replicas: 1
+      containers:
+        - name: "vulnerable"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["/app/vulnerable.sh"]
+          env:
+            - name: "TIMEOUT_CMD"
+              value: "300"
+            - name: "ADD_SERVER_IP_TO_COMMAND"
+              value: "true"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "128M"
+              cpu: "500m"
+            limits:
+              memory: "128M"
+              cpu: "500m"
+      region: "rpi-8-ufmg"
+      cluster: "iot"
+
+    - name: "attacker-mqtt"
+      persitent_volume_path: ["/app/results/", "/app/results/", "/app/results/", "/app/results/", "/app/results/"]
+      replicas: 1
+      containers:
+        - name: "tshark"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["cp /etc/hosts /app/results/hosts"]
+          securityContext:
+            privileged: true
+          env:
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "MENTORED_PRE_CMD"
+              value: "iptables-80-22-tshark.sh"
+          resources:
+            requests:
+              memory: "100M"
+              cpu: "100m"
+            limits:
+              memory: "100M"
+              cpu: "100m"
+        - name: "attacker-node-1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["python3", "attacker.py", "iot-vuln-ssh-node-1"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
+          env:
+            - name: "TIME_WAIT_START"
+              value: "30"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "PASSW_LIST"
+              value: "10_common_passwords"
+            - name: "ATTACK_CMD"
+              #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+              # value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "100m"
+        - name: "attacker-node-2"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["python3", "attacker.py", "iot-vuln-ssh-node-2"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
+          env:
+            - name: "TIME_WAIT_START"
+              value: "30"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "PASSW_LIST"
+              value: "10_common_passwords"
+            - name: "ATTACK_CMD"
+              #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+              # value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "100m"
+        - name: "attacker-node-3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["python3", "attacker.py", "iot-vuln-ssh-node-3"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
+          env:
+            - name: "TIME_WAIT_START"
+              value: "30"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "PASSW_LIST"
+              value: "10_common_passwords"
+            - name: "ATTACK_CMD"
+              #value: "mentored-attack hping3 mqtt-broker net1 180 1883 -S --flood -d 1024"
+              # value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "100m"
+        - name: "attacker-node-4"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v6"
+          imagePullPolicy: "Always"
+          command: ["/entry.sh"]
+          args: ["python3", "attacker.py", "iot-vuln-ssh-node-4"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
+          env:
+            - name: "TIME_WAIT_START"
+              value: "30"
+            - name: "SERVER_NA_NAME"
+              value: "mqtt-broker"
+            - name: "PASSW_LIST"
+              value: "10_common_passwords"
+            - name: "ATTACK_CMD"
+              #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+              # value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              memory: "32M"
+              cpu: "50m"
+            limits:
+              memory: "256M"
+              cpu: "100m"
+      region: "rpi-9-ufmg"
+      cluster: "iot"
+
+  topology: "None"
