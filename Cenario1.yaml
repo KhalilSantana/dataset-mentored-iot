@@ -6,7 +6,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v2"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -42,7 +42,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-static"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v2"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -78,7 +78,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "attacker"
-          image: "ghcr.io/khalilsantana/generic-botnet:dataset-mentored-iot-2024-v2"
+          image: "ghcr.io/khalilsantana/generic-botnet:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["mentored-attack", "slowloris", "server-http", "net1", "180", "80"]
