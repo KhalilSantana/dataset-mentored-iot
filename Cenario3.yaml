@@ -6,7 +6,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -14,7 +14,7 @@ Experiment:
             privileged: true
           env:
             - name: "SERVER_NA_NAME"
-              value: "backend-server"
+              value: "backend-server-0"
             - name: "MENTORED_PRE_CMD"
               value: "iptables-80-22-tshark.sh"
         - name: "server"
@@ -28,7 +28,7 @@ Experiment:
             - name: "ENABLE_SLOWLORIS_DEFENSE"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "backend-server"
+              value: "backend-server-0"
           resources:
             requests:
               memory: "1G"
@@ -44,7 +44,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "server"
-          image: "ghcr.io/khalilsantana/nginx-simple-ssl:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/nginx-simple-ssl:dataset-khalil-2025-v1"
           command: ["/entry.sh"]
           args: ["/usr/local/bin/setup-reverse-proxy.sh"]
           imagePullPolicy: "Always"
@@ -55,7 +55,7 @@ Experiment:
             - containerPort: 443
           env:
             - name: "SERVER_NA_NAME"
-              value: "backend-server"
+              value: "backend-server-0"
           resources:
             requests:
               memory: "500M"
@@ -64,7 +64,7 @@ Experiment:
               memory: "2G"
               cpu: "2"
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -72,7 +72,7 @@ Experiment:
             privileged: true
           env:
             - name: "SERVER_NA_NAME"
-              value: "backend-server"
+              value: "backend-server-0"
             - name: "MENTORED_PRE_CMD"
               value: "iptables-80-22-tshark.sh"
       region: "whx-mg"
@@ -84,13 +84,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -123,13 +123,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -161,13 +161,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -199,13 +199,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -237,13 +237,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -275,13 +275,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -314,13 +314,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -352,13 +352,13 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "TIME_WAIT_START"
               value: "0"
             - name: "TIMEOUT_CMD"
@@ -390,7 +390,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -400,7 +400,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
           ports:
             - containerPort: 80
           securityContext:
@@ -420,7 +420,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -430,7 +430,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
           ports:
             - containerPort: 80
           securityContext:
@@ -450,7 +450,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -460,7 +460,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
           ports:
             - containerPort: 80
           securityContext:
@@ -480,7 +480,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -490,7 +490,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
           ports:
             - containerPort: 80
           securityContext:
@@ -510,20 +510,20 @@ Experiment:
       replicas: 1
       containers:
         - name: "attacker-node-1"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-1"]
-          # args: ["mentored-attack", "hping3", "server-http", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "server-http-0", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "60"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
-              value: "mentored-attack rapidreset server-http net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
+              value: "mentored-attack rapidreset server-http-0 net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
           securityContext:
             privileged: true
           resources:
@@ -534,20 +534,20 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "attacker-node-2"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-2"]
-          # args: ["mentored-attack", "hping3", "server-http", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "server-http-0", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "60"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
-              value: "mentored-attack rapidreset server-http net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
+              value: "mentored-attack rapidreset server-http-0 net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
           securityContext:
             privileged: true
           resources:
@@ -558,20 +558,20 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "attacker-node-3"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-3"]
-          # args: ["mentored-attack", "hping3", "server-http", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "server-http-0", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "60"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
-              value: "mentored-attack rapidreset server-http net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
+              value: "mentored-attack rapidreset server-http-0 net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
           securityContext:
             privileged: true
           resources:
@@ -582,20 +582,20 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "attacker-node-4"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-4"]
-          # args: ["mentored-attack", "hping3", "server-http", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "server-http-0", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "60"
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
-              value: "mentored-attack rapidreset server-http net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
+              value: "mentored-attack rapidreset server-http-0 net1 180 443 -requests=999999999 -wait 50 -delay 10 -concurrency=50"
           securityContext:
             privileged: true
           resources:
@@ -606,7 +606,7 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-mentored-iot-2024-v3"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -614,7 +614,7 @@ Experiment:
             privileged: true
           env:
             - name: "SERVER_NA_NAME"
-              value: "server-http"
+              value: "server-http-0"
             - name: "MENTORED_PRE_CMD"
               value: "iptables-80-22-tshark.sh"
       region: "rpi-9-ufmg"
