@@ -22,7 +22,7 @@ def compute_metrics(data, freq='S'):
 
 
 
-def plot_metrics(throughput, packet_counts, freq, fontsize, expected_time):
+def plot_metrics(throughput, packet_counts, freq, fontsize, expected_time, offset=0):
     fig, ax1 = plt.subplots(figsize=(12, 6))
     # convert expected_time to Timedelta
     expected_time = pd.Timedelta(seconds=expected_time)
@@ -57,6 +57,8 @@ def plot_metrics(throughput, packet_counts, freq, fontsize, expected_time):
     df = pd.read_csv("../merged_data.csv")
     # Transform non number of second columns to nan
     df['delay (seconds)'] = pd.to_numeric(df['delay (seconds)'], errors='coerce')
+    # Add a offset to every entry in delay (seconds) to correct the time
+    df['time'] = df['time'] + offset
 
     # Get nan lines
     nan_lines = df[df['delay (seconds)'].isna()]
@@ -124,6 +126,7 @@ def main():
     parser.add_argument('-s', '--fontsize', dest='fontsize', type=int, default=12, help='Font size for the plot')
     parser.add_argument('-t', '--expected_time', dest='time', type=int, default=60, help='Experiment expected time in seconds')
     parser.add_argument('-u', '--unix_timestamp', dest='unix_timestamp', type=int, help='Unix timestamp of experiment start')
+    parser.add_argument('-o', '--offset', dest='offset', type=int, default=0, help='Offset to correct the time')
 
     args = parser.parse_args()
     file_path = args.input_file
@@ -137,7 +140,7 @@ def main():
 
     for freq, label in tqdm(freq_options.items(), desc="Computing and plotting metrics"):
         throughput, packet_counts = compute_metrics(data, freq=freq)
-        plot_metrics(throughput, packet_counts, label, args.fontsize, expected_time)
+        plot_metrics(throughput, packet_counts, label, args.fontsize, expected_time, offset=args.offset)
 
 
 if __name__ == '__main__':
