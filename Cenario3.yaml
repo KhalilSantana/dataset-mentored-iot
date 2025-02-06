@@ -6,7 +6,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -44,7 +44,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "server"
-          image: "ghcr.io/khalilsantana/nginx-simple-ssl:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/nginx-simple-ssl:dataset-khalil-2025-v2"
           command: ["/entry.sh"]
           args: ["/usr/local/bin/setup-reverse-proxy.sh"]
           imagePullPolicy: "Always"
@@ -64,7 +64,7 @@ Experiment:
               memory: "2G"
               cpu: "2"
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -84,7 +84,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -123,7 +123,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -161,7 +161,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -199,7 +199,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -237,7 +237,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -275,7 +275,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -314,7 +314,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -352,7 +352,7 @@ Experiment:
       replicas: 10
       containers:
         - name: "client-dynamic"
-          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/generic-client:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["random-requests.sh"]
@@ -390,7 +390,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -420,7 +420,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -450,7 +450,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -480,7 +480,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ['./vulnerable.sh']
@@ -510,7 +510,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "attacker-node-1"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-1"]
@@ -534,7 +534,7 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "attacker-node-2"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-2"]
@@ -558,7 +558,7 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "attacker-node-3"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-3"]
@@ -582,7 +582,7 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "attacker-node-4"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-4"]
@@ -606,7 +606,7 @@ Experiment:
               memory: "512M"
               cpu: "2000m"
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v1"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v2"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
