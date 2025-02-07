@@ -7,7 +7,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -15,7 +15,7 @@ Experiment:
             privileged: true
           env:
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MENTORED_PRE_CMD"
               value: "iptables-80-22-tshark.sh"
           resources:
@@ -26,7 +26,7 @@ Experiment:
               memory: "100M"
               cpu: "100m"
         - name: "broker"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command:
             ["/usr/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf", "-v"]
@@ -50,7 +50,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -58,7 +58,7 @@ Experiment:
             privileged: true
           env:
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MENTORED_PRE_CMD"
               value: "iptables-80-22-tshark.sh"
           resources:
@@ -69,7 +69,7 @@ Experiment:
               memory: "100M"
               cpu: "100m"
         - name: "server"
-          image: "ghcr.io/khalilsantana/rstp_stream_server:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/rstp_stream_server:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           # command: ["/usr/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf", "-v"]
           env:
@@ -92,11 +92,11 @@ Experiment:
       cluster: "x86"
 
     - name: "mqtt-sub-node-1"
-      persitent_volume_path: ["/app/results/", "/app/results/"]
+      persitent_volume_path: ["/app/results/"]
       replicas: 4
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -111,9 +111,9 @@ Experiment:
             ]
           env:
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "sub"
             - name: "MQTT_TOPIC"
@@ -133,11 +133,11 @@ Experiment:
       cluster: "iot"
 
     - name: "mqtt-sub-node-2"
-      persitent_volume_path: ["/app/results/", "/app/results/"]
+      persitent_volume_path: ["/app/results/"]
       replicas: 4
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -152,9 +152,9 @@ Experiment:
             ]
           env:
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "sub"
             - name: "MQTT_TOPIC"
@@ -174,11 +174,11 @@ Experiment:
       cluster: "iot"
 
     - name: "mqtt-sub-node-3"
-      persitent_volume_path: ["/app/results/", "/app/results/"]
+      persitent_volume_path: ["/app/results/"]
       replicas: 4
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -193,9 +193,9 @@ Experiment:
             ]
           env:
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "sub"
             - name: "MQTT_TOPIC"
@@ -215,11 +215,11 @@ Experiment:
       cluster: "iot"
 
     - name: "mqtt-sub-node-4"
-      persitent_volume_path: ["/app/results/", "/app/results/"]
+      persitent_volume_path: ["/app/results/"]
       replicas: 4
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -234,9 +234,9 @@ Experiment:
             ]
           env:
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "sub"
             - name: "MQTT_TOPIC"
@@ -260,7 +260,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -277,9 +277,9 @@ Experiment:
             - name: "TIMEOUT_CMD"
               value: "300"
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "pub"
             - name: "MQTT_TOPIC"
@@ -296,7 +296,7 @@ Experiment:
               memory: "128M"
               cpu: "200m"
         - name: "ip-camera"
-          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["./ip_camera.py"]
@@ -326,7 +326,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -343,9 +343,9 @@ Experiment:
             - name: "TIMEOUT_CMD"
               value: "300"
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "pub"
             - name: "MQTT_TOPIC"
@@ -362,7 +362,7 @@ Experiment:
               memory: "128M"
               cpu: "200m"
         - name: "ip-camera"
-          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["./ip_camera.py"]
@@ -392,7 +392,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -409,9 +409,9 @@ Experiment:
             - name: "TIMEOUT_CMD"
               value: "300"
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "pub"
             - name: "MQTT_TOPIC"
@@ -428,7 +428,7 @@ Experiment:
               memory: "128M"
               cpu: "200m"
         - name: "ip-camera"
-          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["./ip_camera.py"]
@@ -458,7 +458,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "mqtt-client-subscriber"
-          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-simple:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args:
@@ -475,9 +475,9 @@ Experiment:
             - name: "TIMEOUT_CMD"
               value: "300"
             - name: "ADD_SERVER_IP_TO_COMMAND"
-              value: "true"
+              value: "no"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MQTT_MODE"
               value: "pub"
             - name: "MQTT_TOPIC"
@@ -494,7 +494,7 @@ Experiment:
               memory: "128M"
               cpu: "200m"
         - name: "ip-camera"
-          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/ip_camera:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["./ip_camera.py"]
@@ -524,7 +524,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["/app/vulnerable.sh"]
@@ -534,7 +534,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
           securityContext:
             privileged: true
           resources:
@@ -542,7 +542,7 @@ Experiment:
               memory: "128M"
               cpu: "500m"
             limits:
-              memory: "128M"
+              memory: "1000M"
               cpu: "500m"
       region: "rpi-2-ufmg"
       cluster: "iot"
@@ -552,7 +552,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["/app/vulnerable.sh"]
@@ -562,7 +562,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
           securityContext:
             privileged: true
           resources:
@@ -570,7 +570,7 @@ Experiment:
               memory: "128M"
               cpu: "500m"
             limits:
-              memory: "128M"
+              memory: "1000M"
               cpu: "500m"
       region: "rpi-4-ufmg"
       cluster: "iot"
@@ -580,7 +580,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["/app/vulnerable.sh"]
@@ -590,7 +590,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
           securityContext:
             privileged: true
           resources:
@@ -598,7 +598,7 @@ Experiment:
               memory: "128M"
               cpu: "500m"
             limits:
-              memory: "128M"
+              memory: "1000M"
               cpu: "500m"
       region: "rpi-6-ufmg"
       cluster: "iot"
@@ -608,7 +608,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "vulnerable"
-          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/mqtt-attacks:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["/app/vulnerable.sh"]
@@ -618,7 +618,7 @@ Experiment:
             - name: "ADD_SERVER_IP_TO_COMMAND"
               value: "true"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
           securityContext:
             privileged: true
           resources:
@@ -626,7 +626,7 @@ Experiment:
               memory: "128M"
               cpu: "500m"
             limits:
-              memory: "128M"
+              memory: "1000M"
               cpu: "500m"
       region: "rpi-8-ufmg"
       cluster: "iot"
@@ -636,7 +636,7 @@ Experiment:
       replicas: 1
       containers:
         - name: "tshark"
-          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/network-monitor:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["cp /etc/hosts /app/results/hosts"]
@@ -644,7 +644,7 @@ Experiment:
             privileged: true
           env:
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "MENTORED_PRE_CMD"
               value: "iptables-80-22-tshark.sh"
           resources:
@@ -655,21 +655,21 @@ Experiment:
               memory: "100M"
               cpu: "100m"
         - name: "attacker-node-1"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-1"]
-          # args: ["mentored-attack", "hping3", "mqtt-broker-0", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "30"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker-0 net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
@@ -681,21 +681,21 @@ Experiment:
               memory: "256M"
               cpu: "100m"
         - name: "attacker-node-2"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-2"]
-          # args: ["mentored-attack", "hping3", "mqtt-broker-0", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "30"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker-0 net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
@@ -707,21 +707,21 @@ Experiment:
               memory: "256M"
               cpu: "100m"
         - name: "attacker-node-3"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-3"]
-          # args: ["mentored-attack", "hping3", "mqtt-broker-0", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "30"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 1883 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker-0 net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
@@ -733,21 +733,21 @@ Experiment:
               memory: "256M"
               cpu: "100m"
         - name: "attacker-node-4"
-          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v3"
+          image: "ghcr.io/khalilsantana/infection-scenario:dataset-khalil-2025-v4"
           imagePullPolicy: "Always"
           command: ["/entry.sh"]
           args: ["python3", "attacker.py", "iot-vuln-ssh-node-4"]
-          # args: ["mentored-attack", "hping3", "mqtt-broker-0", "net1", "180", "80", "-S"]
+          # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
               value: "30"
             - name: "SERVER_NA_NAME"
-              value: "mqtt-broker-0"
+              value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker-0 net1 180 1883 -fc 1 -sc 120 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
