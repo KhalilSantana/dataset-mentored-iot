@@ -1,2 +1,4 @@
 *.tar.gz
 .old
+scripts/server-analysis/merged_data.csv
+scripts/clients-analysis/merged_data.csv
