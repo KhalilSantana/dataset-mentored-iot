@@ -540,10 +540,10 @@ Experiment:
           resources:
             requests:
               memory: "128M"
-              cpu: "500m"
+              cpu: "1000m"
             limits:
               memory: "1000M"
-              cpu: "500m"
+              cpu: "1000m"
       region: "rpi-2-ufmg"
       cluster: "iot"
 
@@ -568,10 +568,10 @@ Experiment:
           resources:
             requests:
               memory: "128M"
-              cpu: "500m"
+              cpu: "1000m"
             limits:
               memory: "1000M"
-              cpu: "500m"
+              cpu: "1000m"
       region: "rpi-4-ufmg"
       cluster: "iot"
 
@@ -596,10 +596,10 @@ Experiment:
           resources:
             requests:
               memory: "128M"
-              cpu: "500m"
+              cpu: "1000m"
             limits:
               memory: "1000M"
-              cpu: "500m"
+              cpu: "1000m"
       region: "rpi-6-ufmg"
       cluster: "iot"
 
@@ -662,14 +662,14 @@ Experiment:
           # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
-              value: "30"
+              value: "60"
             - name: "SERVER_NA_NAME"
               value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 50 -sc 120 -fcsize 10 -t 10"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
@@ -688,14 +688,14 @@ Experiment:
           # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
-              value: "30"
+              value: "60"
             - name: "SERVER_NA_NAME"
               value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 50 -sc 120 -fcsize 10 -t 10"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
@@ -714,14 +714,14 @@ Experiment:
           # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
-              value: "30"
+              value: "60"
             - name: "SERVER_NA_NAME"
               value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 1883 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 50 -sc 120 -fcsize 10 -t 10"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
@@ -740,14 +740,14 @@ Experiment:
           # args: ["mentored-attack", "hping3", "mqtt-broker", "net1", "180", "80", "-S"]
           env:
             - name: "TIME_WAIT_START"
-              value: "30"
+              value: "60"
             - name: "SERVER_NA_NAME"
               value: "mqtt-broker"
             - name: "PASSW_LIST"
               value: "10_common_passwords"
             - name: "ATTACK_CMD"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
-              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 1 -sc 12000 -fcsize 10 -t 1"
+              value: "mentored-attack mqttsa mqtt-broker net1 180 1883 -fc 50 -sc 120 -fcsize 10 -t 10"
               #value: "mentored-attack hping3 mqtt-broker net1 180 80 -S --flood -d 1024"
           securityContext:
             privileged: true
