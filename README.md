@@ -1,4 +1,4 @@
-# Guia de Experimentos IoT - MENTORED TESTBED 2024
+# Roteiro MENTORED IoT - Painel de Avaliadores
 
 > [!IMPORTANT]
 > É recomendado a leitura dos [tutoriais](https://portal.mentored.ccsc-research.org/tutorial/pt/) do projeto primeiramente. Além disso recomenda-se como ferramentas o Wireshark, um editor de texto como VSCode, assim como um leitor de arquivos compactados como 7zip ou Peazip.
